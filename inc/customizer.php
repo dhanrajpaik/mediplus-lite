@@ -284,9 +284,12 @@ $wp_customize->add_section( 'mediplus_header_settings', array(
         'section' => 'mediplus_color_settings',
     ) ) );
 
+
 // =====================
 
 // FrontPage Panel
+
+//features
     // =====================
     $wp_customize->add_panel( 'mediplus_frontpage_panel', array(
         'title'    => __( 'FrontPage', 'mediplus-lite' ),
@@ -372,10 +375,559 @@ $wp_customize->add_section( 'mediplus_header_settings', array(
             'description' => __( 'Enter an icon class (e.g., icofont-medical-sign-alt).', 'mediplus-lite' ),
         ) );
     }
-    
+// =====================
+
+// Add Section for Fun Facts
+    $wp_customize->add_section( 'mediplus_fun_facts_section', array(
+        'title'    => __( 'fun_facts_section', 'mediplus-lite' ),
+        'priority' => 50,
+    ) );
+
+    // Add Section for Fun Facts
+    $wp_customize->add_section('mediplus_lite_fun_facts_section', array(
+        'title'    => __('Fun Facts Section', 'mediplus-lite'),
+        'priority' => 120,
+    ));
+
+    // Define Fun Facts Items
+    $fun_facts = array(
+        'hospital_rooms'      => __('Hospital Rooms', 'mediplus-lite'),
+        'specialist_doctors'  => __('Specialist Doctors', 'mediplus-lite'),
+        'happy_patients'      => __('Happy Patients', 'mediplus-lite'),
+        'years_experience'    => __('Years of Experience', 'mediplus-lite'),
+    );
+
+    // Loop through Fun Facts to create settings & controls
+    foreach ($fun_facts as $key => $label) {
+        // Counter Value
+        $wp_customize->add_setting("mediplus_lite_{$key}_count", array(
+            'default'           => '0',
+            'sanitize_callback' => 'absint',
+        ));
+        $wp_customize->add_control("mediplus_lite_{$key}_count", array(
+            'label'   => sprintf(__('Number of %s', 'mediplus-lite'), $label),
+            'section' => 'mediplus_lite_fun_facts_section',
+            'type'    => 'number',
+        ));
+
+        // Title Text
+        $wp_customize->add_setting("mediplus_lite_{$key}_title", array(
+            'default'           => $label,
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("mediplus_lite_{$key}_title", array(
+            'label'   => sprintf(__('Title for %s', 'mediplus-lite'), $label),
+            'section' => 'mediplus_lite_fun_facts_section',
+            'type'    => 'text',
+        ));
+
+        // Icon Class
+        $wp_customize->add_setting("mediplus_lite_{$key}_icon", array(
+            'default'           => 'icofont icofont-home',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("mediplus_lite_{$key}_icon", array(
+            'label'   => sprintf(__('Icon Class for %s', 'mediplus-lite'), $label),
+            'section' => 'mediplus_lite_fun_facts_section',
+            'type'    => 'text',
+            'description' => __('Use Icofont or FontAwesome class names (e.g., icofont-home, fa fa-hospital)', 'mediplus-lite'),
+        ));
+    }
+// =====================
+
+//why_choose_us_section
+    // Add Section
+    $wp_customize->add_section('mediplus_lite_why_choose_us_section', array(
+        'title'    => __('Why Choose Us Section', 'mediplus-lite'),
+        'priority' => 130,
+    ));
+
+    // Title
+    $wp_customize->add_setting('mediplus_lite_why_choose_us_title', array(
+        'default'           => 'We Offer Different Services To Improve Your Health',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('mediplus_lite_why_choose_us_title', array(
+        'label'   => __('Main Title', 'mediplus-lite'),
+        'section' => 'mediplus_lite_why_choose_us_section',
+        'type'    => 'text',
+    ));
+
+    // Subtitle
+    $wp_customize->add_setting('mediplus_lite_why_choose_us_subtitle', array(
+        'default'           => 'Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('mediplus_lite_why_choose_us_subtitle', array(
+        'label'   => __('Subtitle', 'mediplus-lite'),
+        'section' => 'mediplus_lite_why_choose_us_section',
+        'type'    => 'textarea',
+    ));
+
+    // Left Section Title
+    $wp_customize->add_setting('mediplus_lite_why_choose_us_left_title', array(
+        'default'           => 'Who We Are',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('mediplus_lite_why_choose_us_left_title', array(
+        'label'   => __('Left Section Title', 'mediplus-lite'),
+        'section' => 'mediplus_lite_why_choose_us_section',
+        'type'    => 'text',
+    ));
+
+    // Left Section Text
+    $wp_customize->add_setting('mediplus_lite_why_choose_us_left_text', array(
+        'default'           => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra antege vel est lobortis.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('mediplus_lite_why_choose_us_left_text', array(
+        'label'   => __('Left Section Text', 'mediplus-lite'),
+        'section' => 'mediplus_lite_why_choose_us_section',
+        'type'    => 'textarea',
+    ));
+
+    // Bullet Points (JSON)
+    $wp_customize->add_setting('mediplus_lite_why_choose_us_bullets', array(
+        'default'           => json_encode(array('Maecenas vitae luctus nibh.', 'Duis massa massa.', 'Aliquam feugiat interdum.')),
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('mediplus_lite_why_choose_us_bullets', array(
+        'label'   => __('Bullet Points (comma-separated)', 'mediplus-lite'),
+        'section' => 'mediplus_lite_why_choose_us_section',
+        'type'    => 'text',
+    ));
+
+    // Video Link
+    $wp_customize->add_setting('mediplus_lite_why_choose_us_video', array(
+        'default'           => 'https://www.youtube.com/watch?v=RFVXy6CRVR4',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('mediplus_lite_why_choose_us_video', array(
+        'label'   => __('Video URL', 'mediplus-lite'),
+        'section' => 'mediplus_lite_why_choose_us_section',
+        'type'    => 'url',
+    ));
+// =====================
+   
+
+}
+add_action( 'customize_register', 'mediplus_customize_register' );
+
+// services
+function mediplus_lite_customize_services($wp_customize) {
+    // Add Section
+    $wp_customize->add_section('services_section', array(
+        'title'    => __('Services Section', 'mediplus-lite'),
+        'priority' => 30,
+    ));
+
+    // Section Heading
+    $wp_customize->add_setting('services_heading', array(
+        'default'           => 'We Offer Different Services To Improve Your Health',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('services_heading', array(
+        'label'    => __('Section Heading', 'mediplus-lite'),
+        'section'  => 'services_section',
+        'settings' => 'services_heading',
+        'type'     => 'text',
+    ));
+
+    // Section Description
+    $wp_customize->add_setting('services_description', array(
+        'default'           => 'Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+
+    $wp_customize->add_control('services_description', array(
+        'label'    => __('Section Description', 'mediplus-lite'),
+        'section'  => 'services_section',
+        'settings' => 'services_description',
+        'type'     => 'textarea',
+    ));
+
+    // Services (Dynamic Fields)
+    for ($i = 1; $i <= 6; $i++) {
+        $wp_customize->add_setting("service_{$i}_icon", array(
+            'default'           => 'icofont icofont-prescription',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control("service_{$i}_icon", array(
+            'label'    => __("Service {$i} Icon Class", 'mediplus-lite'),
+            'section'  => 'services_section',
+            'settings' => "service_{$i}_icon",
+            'type'     => 'text',
+        ));
+
+        $wp_customize->add_setting("service_{$i}_title", array(
+            'default'           => "Service {$i} Title",
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control("service_{$i}_title", array(
+            'label'    => __("Service {$i} Title", 'mediplus-lite'),
+            'section'  => 'services_section',
+            'settings' => "service_{$i}_title",
+            'type'     => 'text',
+        ));
+
+        $wp_customize->add_setting("service_{$i}_description", array(
+            'default'           => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'sanitize_callback' => 'wp_kses_post',
+        ));
+
+        $wp_customize->add_control("service_{$i}_description", array(
+            'label'    => __("Service {$i} Description", 'mediplus-lite'),
+            'section'  => 'services_section',
+            'settings' => "service_{$i}_description",
+            'type'     => 'textarea',
+        ));
+
+        $wp_customize->add_setting("service_{$i}_link", array(
+            'default'           => '#',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+
+        $wp_customize->add_control("service_{$i}_link", array(
+            'label'    => __("Service {$i} Link", 'mediplus-lite'),
+            'section'  => 'services_section',
+            'settings' => "service_{$i}_link",
+            'type'     => 'url',
+        ));
+    }
 }
 
-add_action( 'customize_register', 'mediplus_customize_register' );
+add_action('customize_register', 'mediplus_lite_customize_services');
+
+//call to action
+function mediplus_lite_customize_register_CTA($wp_customize) {
+    // Add Section
+    $wp_customize->add_section('cta_section', array(
+        'title'    => __('Call to Action', 'mediplus-lite'),
+        'priority' => 30,
+    ));
+
+    // CTA Heading
+    $wp_customize->add_setting('cta_heading', array(
+        'default'           => 'Do you need Emergency Medical Care? Call @ 1234 56789',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('cta_heading', array(
+        'label'    => __('Heading', 'mediplus-lite'),
+        'section'  => 'cta_section',
+        'settings' => 'cta_heading',
+        'type'     => 'text',
+    ));
+
+    // CTA Description
+    $wp_customize->add_setting('cta_description', array(
+        'default'           => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor dictum turpis nec gravida.',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+
+    $wp_customize->add_control('cta_description', array(
+        'label'    => __('Description', 'mediplus-lite'),
+        'section'  => 'cta_section',
+        'settings' => 'cta_description',
+        'type'     => 'textarea',
+    ));
+
+    // Contact Button Text
+    $wp_customize->add_setting('cta_button_text', array(
+        'default'           => 'Contact Now',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('cta_button_text', array(
+        'label'    => __('Primary Button Text', 'mediplus-lite'),
+        'section'  => 'cta_section',
+        'settings' => 'cta_button_text',
+        'type'     => 'text',
+    ));
+
+    // Contact Button Link
+    $wp_customize->add_setting('cta_button_link', array(
+        'default'           => '#',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('cta_button_link', array(
+        'label'    => __('Primary Button Link', 'mediplus-lite'),
+        'section'  => 'cta_section',
+        'settings' => 'cta_button_link',
+        'type'     => 'url',
+    ));
+
+    // Secondary Button Text
+    $wp_customize->add_setting('cta_second_button_text', array(
+        'default'           => 'Learn More',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('cta_second_button_text', array(
+        'label'    => __('Secondary Button Text', 'mediplus-lite'),
+        'section'  => 'cta_section',
+        'settings' => 'cta_second_button_text',
+        'type'     => 'text',
+    ));
+
+    // Secondary Button Link
+    $wp_customize->add_setting('cta_second_button_link', array(
+        'default'           => '#',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('cta_second_button_link', array(
+        'label'    => __('Secondary Button Link', 'mediplus-lite'),
+        'section'  => 'cta_section',
+        'settings' => 'cta_second_button_link',
+        'type'     => 'url',
+    ));
+}
+
+add_action('customize_register', 'mediplus_lite_customize_register_CTA');
+
+function mediplus_lite_customize_register_pricing($wp_customize) {
+    // Pricing Table Section
+    $wp_customize->add_section('pricing_table_section', array(
+        'title'    => __('Pricing Table', 'mediplus-lite'),
+        'priority' => 30,
+    ));
+
+    for ($i = 1; $i <= 3; $i++) {
+        // Pricing Title
+        $wp_customize->add_setting("pricing_title_$i", array(
+            'default'   => "Service $i",
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("pricing_title_$i", array(
+            'label'   => __("Pricing Title $i", 'mediplus-lite'),
+            'section' => 'pricing_table_section',
+            'type'    => 'text',
+        ));
+
+        // Pricing Amount
+        $wp_customize->add_setting("pricing_amount_$i", array(
+            'default'   => '$199',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("pricing_amount_$i", array(
+            'label'   => __("Price $i", 'mediplus-lite'),
+            'section' => 'pricing_table_section',
+            'type'    => 'text',
+        ));
+
+        // Pricing Icon
+        $wp_customize->add_setting("pricing_icon_$i", array(
+            'default'   => 'icofont-heart-beat',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("pricing_icon_$i", array(
+            'label'   => __("Icon Class $i", 'mediplus-lite'),
+            'section' => 'pricing_table_section',
+            'type'    => 'text',
+        ));
+
+        // Pricing Description
+        $wp_customize->add_setting("pricing_desc_$i", array(
+            'default'   => 'Lorem ipsum dolor sit amet.',
+            'sanitize_callback' => 'sanitize_textarea_field',
+        ));
+        $wp_customize->add_control("pricing_desc_$i", array(
+            'label'   => __("Description $i", 'mediplus-lite'),
+            'section' => 'pricing_table_section',
+            'type'    => 'textarea',
+        ));
+    }
+}
+add_action('customize_register', 'mediplus_lite_customize_register_pricing');
+
+function glthemes_customize_register_blog($wp_customize) {
+    // Blog Section Panel
+    $wp_customize->add_section('blog_section', array(
+        'title'    => __('Blog Section', 'glthemes'),
+        'priority' => 30,
+    ));
+
+    // Blog Title
+    $wp_customize->add_setting('blog_title', array(
+        'default'           => 'Keep up with Our Most Recent Medical News.',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('blog_title', array(
+        'label'   => __('Blog Title', 'glthemes'),
+        'section' => 'blog_section',
+        'type'    => 'text',
+    ));
+
+    // Blog Subtitle
+    $wp_customize->add_setting('blog_subtitle', array(
+        'default'           => 'Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('blog_subtitle', array(
+        'label'   => __('Blog Subtitle', 'glthemes'),
+        'section' => 'blog_section',
+        'type'    => 'textarea',
+    ));
+
+    // Section Image
+    $wp_customize->add_setting('blog_section_image', array(
+        'default'           => get_template_directory_uri() . '/img/section-img.png',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'blog_section_image', array(
+        'label'    => __('Section Image', 'glthemes'),
+        'section'  => 'blog_section',
+        'settings' => 'blog_section_image',
+    )));
+}
+add_action('customize_register', 'glthemes_customize_register_blog');
+
+function glthemes_customize_register_clients($wp_customize) {
+    // Clients Section
+    $wp_customize->add_section('clients_section', array(
+        'title'    => __('Clients Section', 'glthemes'),
+        'priority' => 40,
+    ));
+
+    // Enable/Disable Clients Section
+    $wp_customize->add_setting('clients_enable', array(
+        'default'           => true,
+        'sanitize_callback' => 'absint',
+    ));
+    $wp_customize->add_control('clients_enable', array(
+        'label'   => __('Enable Clients Section', 'glthemes'),
+        'section' => 'clients_section',
+        'type'    => 'checkbox',
+    ));
+
+    // Clients Images (Repeater)
+    for ($i = 1; $i <= 6; $i++) {
+        $wp_customize->add_setting("client_image_$i", array(
+            'default'           => get_template_directory_uri() . "/img/client$i.png",
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "client_image_$i", array(
+            'label'    => __("Client Logo $i", 'glthemes'),
+            'section'  => 'clients_section',
+            'settings' => "client_image_$i",
+        )));
+    }
+}
+add_action('customize_register', 'glthemes_customize_register_clients');
+
+function glthemes_customize_register_appointment($wp_customize) {
+    // Appointment Section
+    $wp_customize->add_section('appointment_section', array(
+        'title'    => __('Appointment Section', 'glthemes'),
+        'priority' => 50,
+    ));
+
+    // Enable/Disable Appointment Section
+    $wp_customize->add_setting('appointment_enable', array(
+        'default'           => true,
+        'sanitize_callback' => 'absint',
+    ));
+    $wp_customize->add_control('appointment_enable', array(
+        'label'   => __('Enable Appointment Section', 'glthemes'),
+        'section' => 'appointment_section',
+        'type'    => 'checkbox',
+    ));
+
+    // Appointment Title
+    $wp_customize->add_setting('appointment_title', array(
+        'default'           => 'We Are Always Ready to Help You. Book An Appointment',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('appointment_title', array(
+        'label'   => __('Appointment Title', 'glthemes'),
+        'section' => 'appointment_section',
+        'type'    => 'text',
+    ));
+
+    // Appointment Subtitle
+    $wp_customize->add_setting('appointment_subtitle', array(
+        'default'           => 'Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('appointment_subtitle', array(
+        'label'   => __('Appointment Subtitle', 'glthemes'),
+        'section' => 'appointment_section',
+        'type'    => 'textarea',
+    ));
+
+    // Appointment Section Image
+    $wp_customize->add_setting('appointment_section_image', array(
+        'default'           => get_template_directory_uri() . '/img/contact-img.png',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'appointment_section_image', array(
+        'label'    => __('Appointment Section Image', 'glthemes'),
+        'section'  => 'appointment_section',
+        'settings' => 'appointment_section_image',
+    )));
+}
+add_action('customize_register', 'glthemes_customize_register_appointment');
+
+function glthemes_customize_register_newsletter($wp_customize) {
+    // Newsletter Section
+    $wp_customize->add_section('newsletter_section', array(
+        'title'    => __('Newsletter Section', 'glthemes'),
+        'priority' => 60,
+    ));
+
+    // Enable/Disable Newsletter Section
+    $wp_customize->add_setting('newsletter_enable', array(
+        'default'           => true,
+        'sanitize_callback' => 'absint',
+    ));
+    $wp_customize->add_control('newsletter_enable', array(
+        'label'   => __('Enable Newsletter Section', 'glthemes'),
+        'section' => 'newsletter_section',
+        'type'    => 'checkbox',
+    ));
+
+    // Newsletter Title
+    $wp_customize->add_setting('newsletter_title', array(
+        'default'           => 'Sign up for newsletter',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('newsletter_title', array(
+        'label'   => __('Newsletter Title', 'glthemes'),
+        'section' => 'newsletter_section',
+        'type'    => 'text',
+    ));
+
+    // Newsletter Subtitle
+    $wp_customize->add_setting('newsletter_subtitle', array(
+        'default'           => 'Cu qui soleat partiendo urbanitas. Eum aperiri indoctum eu, homero alterum.',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('newsletter_subtitle', array(
+        'label'   => __('Newsletter Subtitle', 'glthemes'),
+        'section' => 'newsletter_section',
+        'type'    => 'textarea',
+    ));
+
+    // Newsletter Form Action URL
+    $wp_customize->add_setting('newsletter_form_action', array(
+        'default'           => 'mail/mail.php',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('newsletter_form_action', array(
+        'label'   => __('Form Action URL', 'glthemes'),
+        'section' => 'newsletter_section',
+        'type'    => 'url',
+    ));
+}
+add_action('customize_register', 'glthemes_customize_register_newsletter');
+
+
+
 
 /**
  * Sanitize checkbox input
